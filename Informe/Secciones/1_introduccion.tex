@@ -1,0 +1,9 @@
+
+	A partir de la información provista por dos acelerómetros colocados en un vehículo, se desea obtener la trayectoria del mismo. Como dichas mediciones se ven afectadas por errores, se estimará dicha trayectoria sabiendo la naturaleza de los errores. 
+	\begin{align}
+		a_{medida} &= a_{real} + \mathit{errores} \\
+		a_{medida} &= a_{real} + b + s \cdot a_{medida} + \zeta
+		\label{eq:acel_teo}
+	\end{align}
+
+	A través de un ensayo previo, se determina que la relación entre la aceleración medida de la real está dada por la ecuación \eqref{eq:acel_teo} donde $b$ es el sesgo, $s$ el factor de escala y $\zeta$ es \emph{AWGN} de media nula y variancia $\sigma_\zeta$ conocida.

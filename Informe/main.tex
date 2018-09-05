@@ -1,0 +1,52 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}		% Configuro la codificación
+\input{config.tex}				% Archivo con los comandos globales como Título y autores
+\input{preamble.tex}
+\input{aux_functions.tex}		% Se proveen un conjunto de funciones extras
+
+% Defino el path de los includegraphics
+\graphicspath{{./Figuras/}}		% Directorio que contiene los graficos
+
+% Defino el path para los input de .tex y de .eps
+\makeatletter
+\def\input@path{{./Figuras/}{./Secciones/}{./Cover_page/}}
+\makeatother
+
+% Defino el path del listings
+\ifListings
+%% Cambiar el nombre de la carpeta si se utilizan Listings
+	\lstinputpath{{../Octave/}}
+\fi
+
+\definecolor{myred}{rgb}{0.5,0,0}
+\definecolor{mygreen}{rgb}{0,0.5,0}
+
+
+
+\begin{document}
+		% Carátula (formal o simple,_formal o _simple respectivamente) con Resumen
+		% incluido e Índice (si es necesario configurar en config.tex) del informe
+		\input{cover_formal.tex}
+	\setcounter{page}{1}
+
+	\section{Introducción}\label{sec:intro}
+		\input{1_introduccion.tex}
+		
+	\section{Modelo para la estimación}\label{sec:modelo}
+		\input{2_modelo.tex}
+
+	\section{Estimación de los valores de los sesgos y factores de escala}\label{sec:estim}
+                \input{3_estimacion.tex}
+
+	\section{Trayectoria del vehículo}\label{sec:tray}
+		\input{4_trayectoria.tex}
+
+	\section{Resolución con menos muestras}\label{sec:alternativa}
+		\input{5_alternativa.tex}
+                
+	\section{Conclusiones}
+		\input{6_conclusiones.tex}
+	
+	%\appendix
+\end{document}

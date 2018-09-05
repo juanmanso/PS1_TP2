@@ -1,0 +1,69 @@
+figure
+plot(a_med-errores)
+legend('x','y')
+grid
+figure
+
+%p_calc = p_inicial + cumtrapz(cumtrapz(a_med-errores)/length(a_med)+v_inicial)/length(a_med); %- cumtrapz(cumtrapz(errores));
+
+%P_total = [p_calc(end,:); P];
+
+vx = cumtrapz(a_med(:,1)-errores(:,1));
+vx = (vx + max(abs(vx))/2)/max(abs(vx)) + v_inicial(1);
+plot(vx)
+px = cumtrapz(vx) /length(vx);
+hold on
+plot(px/length(vx))
+%	
+%	%aux = a_cor*0;
+%	%aux(1,:) = 0;
+%	%aux(2:end,:) = a_cor(1:end-1,:);
+%	%dv_calc = (aux+a_cor)/2; 
+%	%v_calc = cumsum(dv_calc)+v_inicial;
+%	
+	v_calc = cumtrapz(a_med-errores) + v_inicial;
+%	
+%	figure(1)
+%	%plot([a_med dv_calc v_calc])
+%	%legend(['Ax';'Ay';'dVx';'dVy';'Vx';'Vy'])
+	t=length(v_calc);
+	t=1:t;
+	plot(t,10000*cos(t*2*pi/20000)*10/pi,'g')
+	hold on
+	plot(t,v_calc)
+	grid
+	legend('x','y','int analitica sen')
+%	return;
+%	
+%	
+%	%aux = v_calc*0;
+%	%aux(1,:) = x_inicial;
+%	%aux(2:end,:) = v_calc(1:end-1,:);
+%	%dx_calc = (dv_calc+aux)/2;
+%	%x_calc = cumsum(dx_calc)./sum(dx_calc);
+	p_calc = cumtrapz(v_calc) + p_inicial;
+%	
+%	return;
+	figure
+	plot(p_calc)
+	legend('x','y')
+%	plot([a_med dv_calc v_calc dx_calc x_calc])
+%	legend(['Ax';'Ay';'dVx';'dVy';'Vx';'Vy';'dXx';'dXy';'x';'y'])
+%	
+%	[x_calc(end); P]
+
+	figure
+	hold on
+	plot(v_calc(:,1),v_calc(:,2),'color',myGreen)
+	%plot(p_calc(:,1),p_calc(:,2),'r')
+
+
+
+%%% A estandar %%
+%%	aux_0 = zeros(l,2*l-1);
+%%	idx=eye(l);
+%%	aux(:,1:2:end) = idx;
+%%	
+%return;
+%A = A_x * aux + A_y * (aux_0-aux);
+

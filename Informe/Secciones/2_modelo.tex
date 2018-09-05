@@ -1,0 +1,33 @@
+
+	\graficarEPS{1.0}{geometria}{Geometría del probelma.}{fig:geom}
+
+	Como se ve en la Figura \ref{fig:geom}, la aceleración del vehículo es $\underline{a}=[a_x \;\; a_y] = [-g\cdot \sen(\theta) \;\; -g\cdot \cos(\theta)]$. Por lo tanto, a través de la Ecuación \eqref{eq:acel_teo} se obtiene:
+	\begin{align*}
+		a_{med_x}(\theta_i) &= - \sen(\theta_i) \cdot g + b_x - s_x\cdot \sen(\theta_i)\cdot g + \zeta_x  \\
+		a_{med_y}(\theta_i) &= - \cos(\theta_i) \cdot g + b_y - s_y\cdot \cos(\theta_i)\cdot g + \zeta_y 
+	\end{align*}
+
+	En el ensayo, se conoce la aceleración provista por los acelerómetros, como también el ángulo $\theta$. Así las incógnitas a estimar son $s_x$, $s_y$, $b_x$, $b_y$. Por lo tanto se hace el siguiente reordenamiento:
+	\begin{align*}
+		b_x  + s_x \cdot (-g\sen(\theta_i)) + \zeta_x &= a_{medida_x} + g\sen(\theta_i)\\
+		b_y  + s_y \cdot (-g\cos(\theta_i)) + \zeta_y &= a_{medida_y} + g\cos(\theta_i)
+	\end{align*}
+	Debe notarse que si no hubiese rotación, no se podría saber si el error de medición se debe al error de escala (función de $\theta$) o el sesgo (término independiente). Al haber variación de $\theta$ en segundo ensayo, la distinción es posible. \\
+	\indent A continuación (Ecuación \eqref{eq:modelo_i}) se presenta la expresión del modelo para la estimación de dichos parámetros\footnote{Para diferenciar las variables $X$ e $Y$ del modelo con las variables $x$ e $y$ espaciales, se representan con mayúsculas y minúsculas respectivamente.}:
+	\begin{equation}
+		Y(\theta_i) = \underbrace{\begin{bmatrix} a_{med_x}(\theta_i) +g\sen(\theta_i) \\[0.3em] a_{med_y}(\theta_i)+g\cos(\theta_i) \end{bmatrix}}_{Y_i} = \underbrace{\begin{bmatrix} 1 & -g\sen(\theta_i) & 0 & 0 \\[0.3em] 0&0& 1& -g\cos(\theta_i) \end{bmatrix}}_{A^i} \cdot \underbrace{\begin{bmatrix} b_x\\[0.3em] s_x\\[0.3em] b_y\\[0.3em] s_y \end{bmatrix}}_{X} + \underbrace{\begin{bmatrix} \zeta_x \\[0.3em] \zeta_y \end{bmatrix}}_{\eta}
+		\label{eq:modelo_i}
+	\end{equation}
+
+	Matricialmente se obtiene por lo tanto:
+	\begin{align*}
+		\underbrace{\begin{bmatrix} Y_1 \\[0.3em] Y_2 \\[0.3em] \vdots\end{bmatrix}}_{Y} &= \underbrace{\begin{bmatrix} A^1\\[0.3em] A^2\\[0.3em] \vdots\end{bmatrix}}_{A}\cdot X + \eta\\
+		\Rightarrow Y &= A\cdot X + \eta
+	\end{align*}
+
+	%% Otra forma, probar
+	Otra forma de modelizar este problema es separando en $x$ e $y$ \vspace{0.1cm}. Se pueden resolver los 2 problemas por separado por la geometría del mismo. Rescribiendo $A^i = \begin{bmatrix} A^i_1 & \underline{0} \\[0.3em] \underline{0} & A^i_2 \end{bmatrix}$ y también $Y^i = \begin{bmatrix} Y^i_x \\[0.3em] Y^i_y \end{bmatrix}$ el modelo es:
+	\begin{align*}
+	\underbrace{\begin{bmatrix} A_1 & 0 \\[0.3em] 0 & A_2 \end{bmatrix}}_A \; X + \underbrace{\begin{bmatrix}\zeta^1_x\\ \vdots\\ \zeta^{n/2}_x \\ \zeta^1_y \\ \vdots \\ \zeta^{n/2}_y \end{bmatrix}}_\eta &= \underbrace{\begin{bmatrix} \underline{Y^T_x} \\[0.3em] \underline{Y^T_y} \end{bmatrix}}_Y
+	\end{align*}
+

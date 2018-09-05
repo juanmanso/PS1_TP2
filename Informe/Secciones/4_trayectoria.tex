@@ -1,0 +1,21 @@
+
+	Para realizar el cálculo de la trayectoria (posición del vehículo a lo largo del tiempo) se debe integrar dos veces la aceleración. Sin embargo, como la medición difiere del valor verdadero, al integrarse propaga los errores alterando el valor de la trayectoria.
+	\begin{align*}
+		{a}_{med}(t) &= {a}_{real}(t) + {\textit{errores}}\,(t)\\
+		v_{calc}(t) = v_{inicial} + \int^t_{t_0} a_{med}(\tau)\: d\tau &= v_{real}(t) + \int^t_{t_0} \textit{errores}\,(\tau) d\tau \\
+		p_{calc}(t) = p_{inicial} + \int^t_{t_0} v_{calc}(\tau)\: d\tau &= p_{real}(t) + \int^t_{t_0}\left[\int^\tau_{t_0} \textit{errores}\,(\nu) d\nu\right] d\tau %\\
+%		\Rightarrow p_{real} = p_{inicial} + \int^t_{t_0} \left[\int^\tau_{t_0} a_{med}\,(\nu) d\nu\right]&+v_{inicial}\; d\tau - \int^t_{t_0}\left[\int^\tau_{t_0} \textit{errores}\,(\nu) d\nu\right] d\tau 
+	\end{align*}
+
+	Sin embargo, como toda medición, la trayectoria resultante tendrá incerteza. El error de posición debe ser la mitad de la distancia mínima entre las mediciones. A continuación se desarrolla la relación de dicho error $\delta_p$ con las muestras.
+	\begin{equation*}
+		\delta_p = \left\|\int^{t_f}_{t_0}\int^{t}_{t_0} (\hat{b}-{b}) + (\hat{s} - s) \cdot a_{med} + \zeta \, dt^{'}\right\| \leq \frac{t^2}{2} |\hat{b}-b| + \underbrace{\int^{tf}_{t_0}\int^t_{t_0}(\hat{s}-s)\cdot a_{med}(t) \, dt}_{\leq\frac{t^2}{2}\cdot|a_{\max}|\cdot|\hat{s}-s|} + \int^{tf}_{t_0}\int^t_{t_0}\zeta(t) \, dt
+	\end{equation*}
+	Dicha desigualdad puede ser acotada por cotas de sus términos. Los términos correspondientes a la diferencia entre los estimadores y los parámetros reales pueden acotarse suponiendo que las estimaciones son con un $N$ suficientemente grande para que su distribución de probabilidad sea normal. Con dicha hipótesis, se puede afirmar que la mayoría ($\approx 99\%$) de los valores estimados se encuentran a 3 desvios de distancia de la media. Dado que la media de los estimadores es el parámetro a estimar (estimador insesgado), entonces $|\hat{\gamma} - \gamma|\leq 3\,\sigma_\gamma$ donde $\gamma$ es cualquiera de los parámetros estimados.Por otro lado, se puede acotar la integral del ruido por $3\,\sigma_\eta$ debido a que se trata de un proceso de Wiener o de \emph{random walk}. En consecuencia:
+	\begin{equation*}
+		\delta_p < \frac{t^2_f}{2} (3\sigma_b  + 3|a_{\max}|\sigma_s) + 3\sigma_\eta %< \frac{\min\{\textit{distancia}\}}{2}
+	\end{equation*}
+
+	\graficarEPS{0.6}{graf_trayectoria}{Trayectorias con y sin correción, con los posibles puntos de llegada.}{fig:tray}
+	A partir de todo lo desarrollado en esta sección, se grafican las trayectorias corregida (y su incerteza) y sin correción en la Figura \ref{fig:tray}. Se puede ver allí, que el entorno de incertidumbre es muy pequeño resultando en que el vehículo no llegó a ninguno, aunque pasó por el \texttt{A}. Éste resultado es extraño y puede deberse a un mal cálculo de los $\delta_p$, porque por inspección se podría afirmar que el vehículo debería haber llegado al punto \texttt{C}.
+

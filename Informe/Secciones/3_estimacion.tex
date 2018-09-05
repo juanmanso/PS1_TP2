@@ -1,0 +1,51 @@
+
+	El estimador $\hat{X}$ es aquel que minimice $\mathbb{E}\left[||Y-\hat{Y}||^2\right]$, con $\hat{Y}=A\hat{X}$. Entonces:
+	\begin{align*}
+		< Y - A\hat{X}, A X> &= 0\\
+		\mathbb{E}\left[ (A \hat{X}-Y)^T A X\right] &= 0\\
+		\Rightarrow A^T A \hat{X} &= A^T Y
+	\end{align*}
+
+	Suponiendo que existe $\left(A^T A\right)^{-1}$, aplicado en el modelo donde se separan las variables $x$ e $y$:
+	\begin{align*}
+		\left(A^T A\right)^{-1} A^T &=\left(\begin{bmatrix} A^T_1 & 0\\0 & A^T_2\end{bmatrix} \begin{bmatrix} A_1 & 0\\0& A_2\end{bmatrix}\right)^{-1} A^T \\ &= \begin{bmatrix} (A^T_1 A_1)^{-1} & 0 \\ 0& (A^T_2 A_2)^{-1}\end{bmatrix} \begin{bmatrix} A^T_1&0\\0&A^T_2\end{bmatrix} \\&= \begin{bmatrix} (A^T_1 A_1)^{-1}A^T_1 & 0 \\ 0& (A^T_2 A_2)^{-1}A^T_2\end{bmatrix}\\
+		\Rightarrow \hat{X} = \begin{bmatrix} \hat{X}_x \\ \hat{X}_y \end{bmatrix} &= \begin{bmatrix} (A^T_1 A_1)^{-1}A^T_1 & 0 \\ 0& (A^T_2 A_2)^{-1}A^T_2\end{bmatrix} \begin{bmatrix} Y_x\\Y_y \end{bmatrix}
+	\end{align*}
+
+	En consecuencia, se pueden realizar los dos problemas por separado como se afirmó en un principio. De aquí en adelante se harán los desarrollos para uno de ellos dado que el del otro será el mismo. \\ \indent Para calcular la covarianza de $\hat{X}$ es conveniente analizar si el estimador es insesgado, es decir si la esperanza del parámetro coincide con la del estimador.
+	\begin{align*}
+		\mathbb{E}[\hat{X}]&= \mathbb{E}\left[(A^T A)^{-1} A^T Y\right] \\&= (A^T A)^{-1} A^T \mathbb{E}[Y]\\
+				&=(A^T A)^{-1} A^T \mathbb{E}[AX + \eta]\\ 
+				&=(A^T A)^{-1} A^T (\mathbb{E}[AX] + \underbrace{\mathbb{E}[\eta]}_{=0})\\ 
+				&=\underbrace{(A^T A)^{-1} A^T A}_{=I} \;\mathbb{E}[X]
+	\end{align*} \begin{equation*}
+		\boxed{\mathbb{E}[\hat{X}] = \mathbb{E}[X] \underuparrow{=}{X \in \mathbb{R}}X}
+	\end{equation*}
+	Se ve por lo tanto que el estimador es insesgado. Con este resultado se procede a calcular la covarianza:
+	\begin{align*}
+		\text{cov}(\hat{X})&= \mathbb{E}\left[(\hat{X}-\mathbb{E}[\hat{X}])(\hat{X}-\mathbb{E}[\hat{X}])^T\right] \\&=\mathbb{E}\left[(\hat{X}-X)(\hat{X}-X)^T\right]
+		\\&=\mathbb{E}\left[(A^T A)^{-1} A^T \eta \cdot \eta^T A(A^T A)^{-1}\right]
+		\\&= \underbrace{(A^T A)^{-1} A^T \cdot \mathbb{E}\left[\eta\eta^T\right]\cdot A}_{\mathbb{E}\left[\eta\eta^T\right] \, I} (A^T A)^{-1}
+	\end{align*} 
+\indent Pero como $\mathbb{E}\left[\eta\eta^T\right] = \begin{bmatrix}\sigma^2_{\eta_x}\, I_{2\times2}& 0 \\[0.3em] 0 & \sigma^2_{\eta_y}\, I_{2\times2}\end{bmatrix}$ y $A = \begin{bmatrix} A_1 & 0 \\[0.3em] 0 & A_2\end{bmatrix}$ resulta:
+	\begin{equation*} \boxed{\text{cov}(\hat{X}_x) = \sigma^2_{\eta_x}\:(A^T_1 A_1)^{-1}} \end{equation*}
+	\begin{equation*} \boxed{\text{cov}(\hat{X}_y) = \sigma^2_{\eta_y}\:(A^T_2 A_2)^{-1}} \end{equation*}
+
+		Realizando la estimación por medio del programa \emph{Octave}, se obtienen los resultados expuestos en la Tabla \ref{tab:ej2} y la ecuación \eqref{eq:cov}.
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{cccc}
+			\toprule
+			$\hat{b}_x$	&$\hat{s}_x$		&$\hat{b}_y$	&$\hat{s}_y$\\
+			\midrule
+			$\num{7.667e-2}$	&$\num{-3.014e-2}$	&$\num{-1.751e-2}$	&$\num{1.004e-2}$\\
+			\bottomrule
+		\end{tabular}
+		\caption{Estimación de los parámetros característicos del error de los acelerómetros en $x$ e $y$.}
+		\label{tab:ej2}
+	\end{table}
+
+	\begin{equation}
+		\text{cov}(\hat{X}) = \begin{bmatrix} \num{1.245e-5}&\num{-8.915e-19}&0&0\\\num{-8.915e-19}&\num{2.603e-7}&0&0\\ 0&0&\num{3.200e-5} & \num{3.265e-10}\\ 0&0&\num{3.265e-10} & \num{6.663e-7}\\\end{bmatrix}
+		\label{eq:cov}
+	\end{equation}

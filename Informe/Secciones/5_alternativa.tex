@@ -1,0 +1,33 @@
+
+	Suponiendo que por limitaciones en la capacidad de cómputo no se puede resolver el problema de estimación con todas las muestras, se quiere determinar la cantidad mínima para distinguir el punto de llegada del vehículo. Intuitivamente, a menor cantidad de mediciones, mayor es la incerteza en la misma. Por lo tanto se analiza la covarianza de los estimadores. De la Sección \ref{sec:estim} se tiene:
+	\begin{equation*}
+		cov(\hat{X}) = \begin{bmatrix} \sigma^2_{\eta_x} & 0 \\[0.3em] 0 & \sigma^2_{\eta_y} \end{bmatrix} (A^T A)^{1}
+	\end{equation*}
+
+	Se hará el desarrollo para las estimaciones en $x$ pero será equivalente al desarrollo en $y$. Como la covarianza del ruido no varía, se hace foco en la matriz\footnote{donde $\underline{1}=[1 \; 1 \hdots 1]$ y $\underline{\theta}=[\theta_0\; \theta_1 \hdots \theta_n]$}:
+	\begin{align*}
+		(A^T_1 A_1) &= \begin{bmatrix} \underline{1} \\ -g\cos(\underline{\theta}) \end{bmatrix} \cdot \begin{bmatrix} \underline{1}^T & -g\cos(\underline{\theta}^T) \end{bmatrix}\\
+					       &= \begin{bmatrix} N & -g\sum^N_{i=1}\cos(\theta_i) \\[0.7em] -g\sum^N_{i=1} \cos(\theta_i) & g^2\sum^N_{i=1} \cos^2(\theta_i) \end{bmatrix}
+	\end{align*}
+
+	Suponiendo que las muestras de $\theta$ está equidistribuidas en el intervalo $[0;2\pi]$, la sumatoria de cosenos es nula. Así se puede ver que la covarianza sigue siendo una matriz diagonal. Entonces resulta:
+	\begin{equation*}
+	(A^T_1 A_1)^{-1} = \begin{bmatrix} \frac{1}{N} & 0 \\[0.7em] 0 & 1/\left(g^2\sum^N_{i=1} \cos^2(\theta_i)\right) \end{bmatrix}
+	\end{equation*}
+
+	Aquí se ve que la cantidad de muestras repercute directamente en la incertidumbre de la estimación. Como se dijo antes, el mismo desarrollo es válido para los estimadores en $y$ diferenciandose en un $\sen$ en vez de un $\cos$. Teniendo en cuenta estos resultados, el error de posición debe ser la mitad de la distancia mínima entre posiciones. Por lo tanto, analizando los puntos \texttt{A, B, C} y \texttt{D} se obtiene:
+	\begin{align*}
+		d_{\min_x} &= \num{1.620}  &d_{\min_y} = \num{13.26}
+	\end{align*}
+	
+	Por lo tanto, acotando $\sigma_s > g^2 \cdot N$:
+	\begin{align*}
+		\frac{\min\{distancia\}}{2} &> \delta_p\\
+		\rightarrow \min\{distancia\} &> t^2_f (3\, \sigma_b + 3\,|a_{\max}|\,\sigma_s) + 6\, \sigma_{\eta}\\
+		\min\{distancia\} &> t^2_f \left(\frac{3}{N} + 3\,\frac{1}{g^2\cdot N}\,|a_{\max}|\right)+ 6\, \sigma_{\eta}\\
+		N &> \frac{{t^2_f} \left(3 + 3\,\frac{1}{g^2}\,|a_{\max}|\right)}{\min\{distancia\} - 6\, \sigma_{\eta}}
+	\end{align*}
+	
+	Despejando con los valores de $d_{\min}$ y los datos del problema se obtienen $N_x=2222$ y $N_y=185466$. Éstos valores obtenidos no son los valores mínimos absolutos, sólo representan una cota. Por lo tanto, puede entenderse que haya dado un valor tan alto para $N_y$. 
+	Se realiza el gráfico para $N=N_x$ y se expone en la Figura \ref{fig:tray_menos}. Como se ve allí, la aproximación es peor (se aleja del punto \texttt{C}) pero en la coordenada $x$ se encuentra muy próxima como era de esperarse.
+	\graficarEPS{0.6}{graf_tray_menos}{Trayectoria del vehículo con $N=2222$.}{fig:tray_menos}
